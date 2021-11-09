@@ -9,23 +9,23 @@ import { UpdateCatDto } from './dto/update-cat.dto';
 export class CatsService {
   constructor(@InjectModel(Cat.name) private catModel: Model<CatDocument>) {}
 
-  async create(@Body() createCatDto: CreateCatDto): Promise<Cat> {
+  public async create(@Body() createCatDto: CreateCatDto): Promise<Cat> {
     return new this.catModel(createCatDto).save();
   }
 
-  async findAll() {
+  public async findAll() {
     return this.catModel.find().exec();
   }
 
-  async findOne(id: string) {
+  public async findOne(id: string) {
     return this.catModel.findOne({ _id: id });
   }
 
-  async update(id: string, updateCatDto: UpdateCatDto) {
+  public async update(id: string, updateCatDto: UpdateCatDto) {
     return this.catModel.updateOne({ _id: id }, updateCatDto);
   }
 
-  async remove(id: string) {
+  public async remove(id: string) {
     return this.catModel.deleteOne({ _id: id });
   }
 }
