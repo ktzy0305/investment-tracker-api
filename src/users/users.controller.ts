@@ -19,8 +19,13 @@ export class UsersController {
     }
 
     @Get()
-    findOne(id: string): Promise<User> {
-        return this.userService.findOne(id);
+    findOneByUsername(username: string): Promise<User> {
+        return this.userService.findOneByUsername(username);
+    }
+
+    @Get()
+    findOneByEmail(email: string): Promise<User> {
+        return this.userService.findOneByEmail(email);
     }
     
     @Patch()

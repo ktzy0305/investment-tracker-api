@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -11,13 +11,18 @@ export class AuthService {
     ) {}
 
     async validateUser(username: string, pass: string): Promise<any> {
-        const user = await this.usersService.findOne(username);
-        const validPassword = await bcrypt.compare(pass, user.password);
-        if (user && validPassword) {
-          const { password, ...result } = user;
-          return result;
+        const user = await this.usersService.findOneByUsername(username);
+        if(user){
+          const validPassword = await bcrypt.compare(pass, user.password);
+          if(validPassword){
+            const { password, ...result } = user;
+            return result;
+          }
+          else{
+            throw new HttpException('Invalid password', 401);
+          }
         }
-        return null;
+        throw new HttpException('Invalid username or password', 401);
     }
 
     async login(user: any) {

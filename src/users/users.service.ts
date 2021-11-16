@@ -11,12 +11,17 @@ export class UsersService {
     constructor(@InjectModel(User.name) private usersModel: Model<UserDocument> ){}
     
     public async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-        // Check if user exists in database
-        const user = await this.usersModel.findOne({username: createUserDto.username});
-        if(user) {
-            throw new HttpException('User already exists.', 403);
+        // Check if user exists in database through email and username
+        const email = await this.usersModel.findOne({email: createUserDto.email});
+        const username = await this.usersModel.findOne({username: createUserDto.username});
+        
+        if(email) {
+            throw new HttpException('This email has been taken.', 403);
         }
-        else{
+        else if(username) {
+            throw new HttpException('This username has been taken.', 403);
+        }
+        else {
             // Generate salt to hash password
             const salt = await bcrypt.genSalt(10);
             // Get password plaintext
@@ -26,7 +31,7 @@ export class UsersService {
             // Set user password as hashed password
             createUserDto.password = password_hash;
 
-            return new this.usersModel(createUserDto).save()
+            return new this.usersModel(createUserDto).save();
         }
     }
 
@@ -34,8 +39,12 @@ export class UsersService {
         return this.usersModel.find().exec();
     }
     
-    public async findOne(username: string): Promise<User> {
+    public async findOneByUsername(username: string): Promise<User> {
         return this.usersModel.findOne({username: username});
+    }
+
+    public async findOneByEmail(email: string): Promise<User> {
+        return this.usersModel.findOne({email: email});
     }
     
     public async update(_id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
