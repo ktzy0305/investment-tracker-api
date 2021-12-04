@@ -18,7 +18,7 @@ export class CatsService {
   }
 
   public async findOne(id: string) {
-    return this.catModel.findOne({ _id: id });
+    return this.catModel.findOne({ _id: id }).exec();
   }
 
   public async update(id: string, updateCatDto: UpdateCatDto) {
