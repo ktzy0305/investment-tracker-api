@@ -17,15 +17,15 @@ export class TransactionsService {
     return this.transactionModel.find().exec();
   }
 
-  findOne(id: number) {
-    return this.transactionModel.findOne({ id }).exec();
+  findOne(_id: string) {
+    return this.transactionModel.findOne({ _id }).exec();
   }
 
-  update(id: number, updateTransactionDto: UpdateTransactionDto) {
-    return this.transactionModel.updateOne({ id }, updateTransactionDto).exec();
+  update(_id: string, updateTransactionDto: UpdateTransactionDto) {
+    return this.transactionModel.updateOne({ _id }, updateTransactionDto).exec();
   }
 
-  remove(id: number) {
-    return this.transactionModel.deleteOne({ id }).exec();
+  remove(_id: string) {
+    return this.transactionModel.deleteOne({ _id }).exec();
   }
 }

@@ -20,7 +20,7 @@ export class Transaction {
     @Prop()
     fees: number;
 
-    @Prop()
+    @Prop({ default: Date.now() })
     transaction_date: Date;
 
     @Prop()
