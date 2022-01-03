@@ -1,3 +1,5 @@
+import { User } from "src/users/schemas/user.schema";
+
 export class CreateTransactionDto {
     action: string;
     asset: string;
@@ -6,4 +8,5 @@ export class CreateTransactionDto {
     fees: number;
     transaction_date: Date;
     notes: string;
+    created_by: string;
 }

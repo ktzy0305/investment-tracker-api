@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectModel(User.name) private usersModel: Model<UserDocument> ){}
+    constructor(@InjectModel(User.name) private usersModel: Model<UserDocument>){}
     
     public async create(@Body() createUserDto: CreateUserDto): Promise<User> {
         // Check if user exists in database through email and username
@@ -37,6 +37,10 @@ export class UsersService {
 
     public async findAll(): Promise<User[]> {
         return this.usersModel.find().exec();
+    }
+
+    public async findOne(_id: string): Promise<User> {
+        return this.usersModel.findOne({_id: _id});
     }
     
     public async findOneByUsername(username: string): Promise<User> {

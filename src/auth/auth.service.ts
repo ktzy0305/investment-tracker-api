@@ -16,7 +16,7 @@ export class AuthService {
           const validPassword = await bcrypt.compare(pass, user.password);
           if(validPassword){
             const { password, ...result } = user;
-            return result;
+            return user;
           }
           else{
             throw new HttpException('Invalid password', 401);
@@ -26,7 +26,7 @@ export class AuthService {
     }
 
     async login(user: any) {
-        const payload = { username: user.username, sub: user.userId };
+        const payload = { username: user.username, userId: user._id };
         return {
           access_token: this.jwtService.sign(payload),
         };
