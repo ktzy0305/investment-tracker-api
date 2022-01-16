@@ -20,9 +20,10 @@ export class TransactionsController {
     return this.transactionsService.findAll();
   }
 
-  @Get('/user/:id')
-  findAllForUser(@Param('id') userId: string) {
-    return this.transactionsService.findAllForUser(userId);
+  @UseGuards(JwtAuthGuard)
+  @Get("/user")
+  findAllForUser(@Request() req) {
+    return this.transactionsService.findAllForUser(req.user.id);
   }
 
   @Get(':id')
