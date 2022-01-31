@@ -31,4 +31,15 @@ export class AuthService {
           access_token: this.jwtService.sign(payload),
         };
     }
+
+    // Verify JWT token
+    async verify(token: string) {
+      try{
+        return this.jwtService.verify(token);
+      }
+      catch(err)
+      {
+        throw new HttpException(err, 401);
+      }
+    }
 }

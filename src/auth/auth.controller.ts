@@ -18,4 +18,10 @@ export class AuthController {
     getProfile(@Request() req) {
       return req.user;
     }
+
+    @Get('verifyToken')
+    verifyToken(@Request() req) {
+      const token = req.headers.authorization.split(' ')[1];
+      return this.authService.verify(token);
+    }
 }
